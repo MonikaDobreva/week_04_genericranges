@@ -1,0 +1,161 @@
+:imagesdir: images/
+:toc: macro
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+:imagesdir: images/
+endif::[]
+
+toc::[]
+
+[NOTE]
+====
+*TL:DR*
+
+. Implement test methods in `RangeTest`, these are specified in order.
+. Implement methods needed for the test
+** Some methods need to be implemented as _default_ methods in the `Range` interface
+** Some methods need to implemented in the _leaf_ class `IntegerRange`
+. Refactor the `RangeTest` to make it generic, follow the steps from <<rangetestbase, RangeTestBase>>
+====
+
+= Generic Ranges
+
+A range is some segment between two points. These points could be numbers on a line or dates on a timeline, etc. However the type of the points can be different from the type of the duration.
+
+For example if we have a range between two dates:
+
+* The type of the points (a specific date) is for example `Instant`
+* The type of the _length_ of the range, thus the duration between the two dates is expressed as a `Duration` , e.g. minutes, days, etc.
+
+This is modelled in the Range *interface* as follows:
+
+* The generic type *P* is the type of the points, e.g. `Instant`
+* The generic type *D* is the type of the duration, e.g. `Duration`
+* The generic type *R* is for the range itself, this is a _self-bounding generic_
+
+[[ranges_class_diagram]]
+.Class diagram of the ranges project
+image::range-classes.svg[title='Class diagram of the ranges project']
+
+As can be seen in <<ranges_class_diagram>> we have the `Range` *interface* with the generics *R*, *P*, *D*
+
+Furthermore the `Range` interface returns a https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/function/BiFunction.html[`BiFunction`] in the `meter` method. This `BiFunction` is a lambda expression of the type `(P a, P b) -> D`, or in other words it is a function that receives two points (a and b) and returns the distance between them.
+
+We will implement two _leaf_ classes that implement the interface in this assignment, namely the `IntegerRange` in the first part and the `InstantRange` in the second part.
+
+== Part 1
+
+We start by implementing the `RangeTest`. This class tests both the default methods of the `Range` *interface* as well as the specific implementations of the `IntegerRange` class. We do it in this way, because in the next part of the exercise we will change the `RangeTest` to a generic base class.
+
+Implement the default methods in the `Range` *interface* and the specific implementation methods in the `IntegerRange` class.
+
+=== Some pointers for `RangeTest` class
+
+The `RangeTest` defines a couple of points in ascending order to help with testing in a parameterized way. Where the first value is point `a`, second is point `b`, etc.
+
+Furthermore it defines some helper functions to convert *Strings* to points (`lookupPoint`) or *Ranges* (`createRange`).
+
+Lastly it create a `RangeTestDataFactory` that can be useful to test the `punchThrough` method using the `restRanges`
+
+=== Some pointers for `Range` interface
+
+The `Range` *interface* has a couple of _default_ methods that are common for all ranges. Most method names are self explanatory, however have a look figure <<operations>> below, to help with understanding some common operations.
+
+[[operations]]
+image::rangesoperations.svg[title='Operations between ranges']
+
+In figure <<punchthrough, punchthrough>> you can see how the method `punchThrough` is supposed to work.
+
+[[punchthrough]]
+image::punchthrough.svg[title='The punch only punches if it has a full hit']
+
+This can be tested in the following way, note the `expectedPart` is not given this is left as an exercise.
+
+.The punching on test stage as shown in figure <<punchthrough, punchthrough>>
+[source,java]
+----
+   Stream<Range<R, T, U>> result = range.punchThrough( punch ); // <1>
+   assertThat( result )
+        .as( "punch " + range + " with " + punch )
+        .containsExactlyElementsOf( expectedParts );
+----
+
+<1> Note that the punch operation takes a single `Range punch` but produces a Stream that contains +
+* Either the 'green' range as a whole, in case the punch 'missed', or more formally is not completely contained in the target,
+* part(s) of the green range and the punch as a whole,
+* or only the punch if it completely knocks out and thereby replaces the green range. In this last case the punch and target completely overlap.
+
+From the above you can infer that the resulting `Stream` from the #punchThrough# operation has at least one (1) element and at most three (3).
+
+[TIP]
+====
+Whenever a method produces a Stream from an element of a Stream with a single operation,
+https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/stream/Stream.html#flatMap(java.util.function.Function)[flatMap]
+ is your friend.
+====
+
+=== Some pointers for the `IntegerRange` class
+
+. It has a private helper constructor that takes an array of two T's
+** You can create new instances of `IntegerRange` with the static helper method `of`
+. The `meter` method returns a `BiFunction` that calculates the distance between two integers
+. The `equals` and `hashCode` use the `rangeEquals` and `rangeHashCode` from the interface. This is because you cannot overwrite methods of a class in an interface, we use this trick to avoid duplicate work or copy-and-waste-errors.
+
+== Part 2
+
+*Plan*: We are going to _refactor_ our tests, so that we get tests for new _leaf_ classes almost for free. 
+
+The idea is that you separate the test data from the tests. Doing this in a generic way allows you to specify the tests in terms of the generic types, *R*, *P*, and *D*. 
+
+Figure <<part1>> illustrates the current situation and figure <<part2>> illustrates the state we want to go to.
+
+[[part1]]
+image::rangetest.svg[title=State after part 1]
+
+
+[[part2]]
+image::generictestclasses.svg[title=State after part 2]
+
+There will be a test base class `RangeTestBase`, generic with the type tokens R,P and D.
+The Leaf-Test class then only has to provide a test data provider or factory. The `RangeTestBase` class defines a `helper` method that returns an instance
+of a `RangeTestDataFactory`, that has to be configured for the specific test leaf class.
+
+Afterwards we will implement a new `Range` for `Instant`, with the implementation `InstantRange` and the test `InstantRangeTest`.
+
+=== Task
+[[rangetestbase]]
+* Create a new test class `RangeTestBase` and give it the following declaration.
+
+[source,java]
+----
+public abstract class RangeTestBase<
+              R extends Range<R, P, D>,
+              P extends Comparable<? super P>,
+              D extends Comparable<? super D>
+              > {
+    // Implementation left out
+}
+----
+
+* Copy the implementation from `RangeTest` to `RangeTestBase` and remove the implementation of `helper`, the points array and the daf field
+* Give RangeTestBase one abstract method `abstract  RangeTestDataFactory<R, P, D> helper();`, that returns a data factory.
+* Adapt all tests in `RangeTestBase` so that any use of `Integer` as Point is replaced by generic `P`,
+ any use of `Integer` as distance by generic `D`, and any `IntegerRange` by the generic `R`.
+* Create an `IntegerRangeTest` that extends the `RangeTestBase`. It is a leaf class of `RangeTestBase` and only configures the helper with the anonymous inner class Implementation of the `RangeTestDataFactory`.
+* Now make sure that the test results are the same as before with the simple `RangeTest`.
+* Create a new test for `InstantRangeTest` that extends the base `RangeTestBase`
+** Types are: 
+*** *R*: `InstantRange`
+*** *P*: `Instant`
+*** *D*: `Duration`
+** Define the points to use for testing
+** Implement the `meter` method
+* Create a new `Range` called the `InstantRange`, that uses `Instant` as the points and `Duration` as the duration.
+* Implement `InstantRange`
+
+By completing the above exercise you will have learned that there can be reuse in tests as well,
+you only need to know what tricks to apply.
