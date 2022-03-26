@@ -56,8 +56,7 @@ public interface Range<R extends Range<R, P, D>, P extends Comparable<? super P>
      * @return true is point not before start and not after end.
      */
     default boolean contains( P point ) {
-        //TODO A3B implement contains( T point )
-        return false;
+        return this.start().compareTo(point) <= 0 && this.end().compareTo(point) > 0;
     }
 
     /**
@@ -67,8 +66,10 @@ public interface Range<R extends Range<R, P, D>, P extends Comparable<? super P>
      * @return true on overlap with other
      */
     default boolean overlaps( R other ) {
-        //TODO A1B implement overlaps(...)
-        return false;
+        P firstEnd = min(this.end(), other.end());
+        P secondStart = max(this.start(), other.start());
+        boolean comp = firstEnd.compareTo(secondStart) > 0;
+        return comp;
     }
 
     /**
@@ -121,8 +122,13 @@ public interface Range<R extends Range<R, P, D>, P extends Comparable<? super P>
      * @return the length of the overlap
      */
     default D overlap( R other ) {
-        //TODO A2B implement overlap()
-        return null;
+        P firstEnd = min(this.end(), other.end());
+        P secondStart = max(this.start(), other.start());
+
+        if (firstEnd.compareTo(secondStart) <= 0) {
+            return zero();
+        }
+        return meter().apply(secondStart, firstEnd);
     }
 
     /**
@@ -269,7 +275,12 @@ public interface Range<R extends Range<R, P, D>, P extends Comparable<? super P>
      * cutter have an overlap.
      */
     default Optional<R> intersectWith( R other ) {
-        //TODO A5B implement intersectWith
+        if (this.overlaps(other)) {
+            P intStart = max(this.start(), other.start());
+            P intEnd = min(this.end(), other.end());
+            return Optional.of(between(intStart, intEnd));
+        }
+
         return Optional.empty();
     }
 
@@ -284,8 +295,7 @@ public interface Range<R extends Range<R, P, D>, P extends Comparable<? super P>
      * @return is the other range completely inside this range?
      */
     default boolean contains( R other ) {
-        //TODO A4B implement contains(Range other)
-        return false;
+        return this.start().compareTo(other.start()) <= 0 && this.end().compareTo(other.end()) >= 0;
     }
 
     /**

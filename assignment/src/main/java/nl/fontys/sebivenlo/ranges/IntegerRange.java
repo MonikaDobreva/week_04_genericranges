@@ -10,32 +10,34 @@ import java.util.function.BiFunction;
  * @author Pieter van den Hombergh {@code pieter.van.den.hombergh@gmail.com}
  */
 public class IntegerRange implements Range<IntegerRange, Integer, Integer> {
-    //TODO implement integerRange fields and sole private constructor
-    
-    
-    
+    private final Integer start;
+    private final Integer end;
+
+    private IntegerRange(Integer a, Integer b) {
+        Integer[] i = Range.minmax( a, b );
+
+        this.start = i[0];
+        this.end = i[1];
+    }
+
     @Override
     public Integer start() {
-        //TODO implement getter
-        return null;
+        return this.start;
     }
 
     @Override
     public Integer end() {
-        //TODO implement getter
-        return null;
+        return this.end;
     }
 
     @Override
     public BiFunction<Integer, Integer, Integer> meter() {
-        //TODO implement meter function, returning lambda or method ref
-        return (a,b)-> 0;
+        return (a,b)-> b - a;
     }
 
     @Override
     public IntegerRange between( Integer start, Integer end ) {
-        //TODO implement between factory
-        return null;
+        return of(start, end);
     }
 
     // since the methods hashCode, equals and toString are defined in Object,
@@ -70,8 +72,7 @@ public class IntegerRange implements Range<IntegerRange, Integer, Integer> {
      * @return the range
      */
     public static IntegerRange of( Integer start, Integer end ) {
-        //TODO implement of(Start, End)
-        return null;
+        return new IntegerRange(start, end);
     }
 
 }

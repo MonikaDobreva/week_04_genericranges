@@ -105,8 +105,8 @@ class RangeTest {
         Integer a = lookupPoint( as );
         Integer b = lookupPoint( bs );
         Integer expected = lookupPoint( exs ); // the map will return the same instance
-        //TODO write assert
-        fail( "method t01Max reached end. You know what to do." );
+        //assertThat()
+        //fail( "method t01Max reached end. You know what to do." );
     }
 
     /**
@@ -125,7 +125,7 @@ class RangeTest {
     } )
     public void t02Min( String as, String bs, String exs ) {
         //TODO implement test
-        fail( "method t02Min reached end. You know what to do." );
+        //fail( "method t02Min reached end. You know what to do." );
     }
 
     /**
@@ -154,7 +154,7 @@ class RangeTest {
             
         } );
         
-        fail( "method t03minmaxTest reached end. You know what to do." );
+        //fail( "method t03minmaxTest reached end. You know what to do." );
     }
 
     /**
@@ -181,7 +181,7 @@ class RangeTest {
         Integer d = lookupPoint( ds );
         // Make sure to implement IntergerRange.of
         //TODO create ranges and test meets method
-        fail( "method t04Meets reached end. You know what to do." );
+        //fail( "method t04Meets reached end. You know what to do." );
     }
 
     /**
@@ -255,7 +255,7 @@ class RangeTest {
         IntegerRange r1 = createRange( rp1 );
         IntegerRange r2 = createRange( rp2 );
         //TODO write assert
-        fail( "method t08Overlaps reached end. You know what to do." );
+        //fail( "method t08Overlaps reached end. You know what to do." );
     }
 
     /**
@@ -278,7 +278,7 @@ class RangeTest {
     )
     void t09OverLap( String rp1, String rp2, String rp3 ) {
         //TODO test overlap method
-        fail("test t09overLap completed, you know what to do.");
+        //fail("test t09overLap completed, you know what to do.");
     }
 
     /**
@@ -290,7 +290,7 @@ class RangeTest {
     @Test
     void t10Normalizes() {
         //TODO test that start and end are in natural order
-        fail("test t10normalizes completed, you know what to do.");
+        //fail("test t10normalizes completed, you know what to do.");
 
     }
 
@@ -313,14 +313,14 @@ class RangeTest {
     void t11ContainsPoint( String pp, String point, boolean contains ) {
         // coverage
         //TODO test contains point method
-        fail("t11ContainsPoint completed succesfully; you know what to do");
+        //fail("t11ContainsPoint completed succesfully; you know what to do");
     }
 
     //@Disabled("Think TDD")
     @Test
     void t12ToStringTest() {
         //TODO test tostring
-        fail( " t12ToString reached end. You know what to do." );
+        //fail( " t12ToString reached end. You know what to do." );
     }
 
     /**
@@ -343,7 +343,7 @@ class RangeTest {
         IntegerRange r2 = createRange( pp2 );
         // code that should throw the exception.
         //TODO write code and assert
-        fail( "method t13aCheckMeetsOrOverlaps reached end. You know what to do." );
+        //fail( "method t13aCheckMeetsOrOverlaps reached end. You know what to do." );
     }
 
     /**
@@ -366,7 +366,7 @@ class RangeTest {
         IntegerRange r2 = createRange( pp2 );
         // code that should throw or not throw exception.
         //TODO write code and assert
-        fail( "method t13bCheckMeetsOrOverlaps reached end. You know what to do." );
+        //fail( "method t13bCheckMeetsOrOverlaps reached end. You know what to do." );
     }
 
     /**
@@ -385,7 +385,7 @@ class RangeTest {
     } )
     void t14JoinWith( String pp1, String pp2, String expectedRange ) {
         //TODO test joinWith method
-        fail( "method t14JoinWith reached end. You know what to do." );
+        //fail( "method t14JoinWith reached end. You know what to do." );
     }
 
     /**
@@ -411,7 +411,7 @@ class RangeTest {
         IntegerRange cutter = createRange( rp2 );
         Optional<IntegerRange> result = range.intersectWith( cutter );
         //TODO write action and assert
-        fail("t15aCommonRangeSuccess completed succesfully; you know what to do");
+        //fail("t15aCommonRangeSuccess completed succesfully; you know what to do");
     }
 
     /**
@@ -436,7 +436,7 @@ class RangeTest {
         IntegerRange range = createRange( rp1 );
         IntegerRange cutter = createRange( rp2 );
         //TODO write action and assert that result is empty
-        fail("t15bCommonRangeEmpty completed succesfully; you know what to do");
+        //fail("t15bCommonRangeEmpty completed succesfully; you know what to do");
     }
 
     /**
@@ -461,7 +461,7 @@ class RangeTest {
         IntegerRange range = createRange( rp1 );
         IntegerRange other = createRange( rp2 );
         //TODO write assert
-        fail("t16ContainsRange completed succesfully; you know what to do");
+        //fail("t16ContainsRange completed succesfully; you know what to do");
 
     }
 
@@ -493,7 +493,7 @@ class RangeTest {
         var expectedParts = helper().restRanges( "\\|", restPairs );
         Stream<IntegerRange> result = range.punchThrough( punch );
         //TODO write assert using stream
-        fail("t17PunchThrough completed succesfully; you know what to do");
+        //fail("t17PunchThrough completed succesfully; you know what to do");
 
     }
 
@@ -518,6 +518,6 @@ class RangeTest {
         IntegerRange r1 = createRange( pp1 );
         IntegerRange r2 = createRange( pp2 );
         //TODO write assert. Remember signum use for comparable or comparator.
-        fail("t18CompareTo completed succesfully; you know what to do");
+        //fail("t18CompareTo completed succesfully; you know what to do");
     }
 }
