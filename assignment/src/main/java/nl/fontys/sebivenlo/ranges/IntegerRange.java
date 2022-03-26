@@ -14,10 +14,8 @@ public class IntegerRange implements Range<IntegerRange, Integer, Integer> {
     private final Integer end;
 
     private IntegerRange(Integer[] i) {
-        var greater = Math.max(i[0], i[1]);
-        var lesser = Math.min(i[0], i[1]);
-        this.start = lesser;
-        this.end = greater;
+        this.start = Math.min(i[0], i[1]);
+        this.end = Math.max(i[0], i[1]);
     }
 
     @Override
