@@ -1,5 +1,6 @@
 package nl.fontys.sebivenlo.ranges;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.*;
@@ -12,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import static java.lang.Math.signum;
 
 /**
  * Tests the Range interface via leaf class IntegerRange.
@@ -186,11 +189,12 @@ class RangeTest {
         Integer b = lookupPoint( bs );
         Integer c = lookupPoint( cs );
         Integer d = lookupPoint( ds );
-        // Make sure to implement IntergerRange.of
+        // Make sure to implement IntegerRange.of
 
         IntegerRange range1 = IntegerRange.of(a, b);
         IntegerRange range2 = IntegerRange.of(c, d);
-        assertThat(range1.meets(range2)).isEqualTo(expected);
+        assertThat(range1.meets(range2))
+                .isEqualTo(expected);
 
         //fail( "method t04Meets reached end. You know what to do." );
     }
@@ -211,7 +215,7 @@ class RangeTest {
                 .extracting( "start", "end" )
                 .containsExactly( a, b );
 
-//        fail( "createBetween completed succesfully; you know what to do" );
+//        fail( "createBetween completed successfully; you know what to do" );
     }
 
     /**
@@ -232,7 +236,7 @@ class RangeTest {
 
         TestUtils.verifyEqualsAndHashCode( ref, equ, diffB, diffC );
 
-//        fail( "hashCodeEquals completed succesfully; you know what to do" );
+//        fail( "hashCodeEquals completed successfully; you know what to do" );
     }
 
     /**
@@ -241,7 +245,13 @@ class RangeTest {
     //@Disabled("Think TDD")
     @Test
     public void t07Length() {
-        //TODO test length with distance function
+        Integer a = lookupPoint("a");
+        Integer b = lookupPoint("b");
+        IntegerRange range = IntegerRange.of(a, b);
+
+        assertThat(range.length())
+                .isEqualTo(distance(a,b));
+
         //fail( "method t07Length reached end. You know what to do." );
     }
 
@@ -258,14 +268,16 @@ class RangeTest {
         "ab,cd,false", // disjunct
         "ac,cd,false", // meet
         "ac,bd,true", //  B < C < D
-        //TODO A1A test overlaps() add more test values to improve coverage
+        "ad,bc,true",
     
     }
     )
     void t08Overlaps( String rp1, String rp2, boolean overlaps ) {
+        //Integer
         IntegerRange r1 = createRange( rp1 );
         IntegerRange r2 = createRange( rp2 );
-        //TODO write assert
+        assertThat(r1.overlaps(r2))
+                .isEqualTo(overlaps);
         //fail( "method t08Overlaps reached end. You know what to do." );
     }
 
@@ -283,24 +295,40 @@ class RangeTest {
         "ab,cd,aa", // disjunct
         "ab,bc,bb", // disjunct
         "ac,bd,bc", //  B < C < Integer
-        //TODO A2A test overlap(). add test valeus for coverage
+        "ad,bc,bc",
     
     }
     )
     void t09OverLap( String rp1, String rp2, String rp3 ) {
-        //TODO test overlap method
+        IntegerRange range1 = createRange(rp1);
+        IntegerRange range2 = createRange(rp2);
+        IntegerRange range3 = createRange(rp3);
+
+        Integer expected = range3.length();
+        Integer actual = range1.overlap(range2);
+
+        assertThat(actual)
+                .isEqualTo(expected);
+
         //fail("test t09overLap completed, you know what to do.");
     }
 
     /**
      * Assert that the range constructor puts start and end in the proper order.
-     * E.g. IntergerRange(5,4) -> start: 4 and end: 5
+     * E.g. IntegerRange(5,4) -> start: 4 and end: 5
      * Assert that end of range is less or equal to start, using compareTo.
      */
     //@Disabled("Think TDD")
     @Test
     void t10Normalizes() {
-        //TODO test that start and end are in natural order
+        Integer a = lookupPoint("a");
+        Integer c = lookupPoint("c");
+
+        IntegerRange range = IntegerRange.of(c, a);
+
+        assertThat(range.end().compareTo(range.start()))
+                .isLessThanOrEqualTo(0);
+
         //fail("test t10normalizes completed, you know what to do.");
 
     }
@@ -318,19 +346,29 @@ class RangeTest {
     @CsvSource( {
         "bc,a,false",
         "bc,d,false",
-        //TODO A3A test containsPoint(). add more test values to improve coverage
+        "ad,c,true",
     
     } )
     void t11ContainsPoint( String pp, String point, boolean contains ) {
         // coverage
-        //TODO test contains point method
-        //fail("t11ContainsPoint completed succesfully; you know what to do");
+
+        IntegerRange range = createRange(pp);
+        assertThat(range.contains(lookupPoint(point)))
+                .isEqualTo(contains);
+
+        //fail("t11ContainsPoint completed successfully; you know what to do");
     }
 
     //@Disabled("Think TDD")
     @Test
     void t12ToStringTest() {
-        //TODO test tostring
+        Integer b = lookupPoint("b");
+        Integer c = lookupPoint("c");
+        IntegerRange range = createRange(c, b);
+
+        assertThat(range.toString())
+                .contains(Objects.toString(c, Objects.toString(b)));
+
         //fail( " t12ToString reached end. You know what to do." );
     }
 
@@ -347,13 +385,19 @@ class RangeTest {
     @ParameterizedTest
     @CsvSource( {
         "ab,bc",
-        "ac,bd"
+        "ac,bd",
+        //"ab, cd", checked with one that throws
     } )
     void t13aCheckMeetsOrOverlaps( String pp1, String pp2) {
         IntegerRange r1 = createRange( pp1 );
         IntegerRange r2 = createRange( pp2 );
         // code that should throw the exception.
-        //TODO write code and assert
+
+        ThrowableAssert.ThrowingCallable code = () -> r1.checkMeetsOrOverlaps(r2);
+
+        assertThatCode(code)
+                .doesNotThrowAnyException();
+
         //fail( "method t13aCheckMeetsOrOverlaps reached end. You know what to do." );
     }
 
@@ -376,7 +420,12 @@ class RangeTest {
         IntegerRange r1 = createRange( pp1 );
         IntegerRange r2 = createRange( pp2 );
         // code that should throw or not throw exception.
-        //TODO write code and assert
+
+        ThrowableAssert.ThrowingCallable code = () -> r1.checkMeetsOrOverlaps( r2 );
+
+        assertThatThrownBy(code)
+                .isExactlyInstanceOf(IllegalArgumentException.class);
+
         //fail( "method t13bCheckMeetsOrOverlaps reached end. You know what to do." );
     }
 
@@ -395,7 +444,13 @@ class RangeTest {
         "ac,bd,ad"
     } )
     void t14JoinWith( String pp1, String pp2, String expectedRange ) {
-        //TODO test joinWith method
+        IntegerRange range1 = createRange(pp1);
+        IntegerRange range2 = createRange(pp2);
+        IntegerRange range3 = createRange(expectedRange);
+
+        assertThat(range1.joinWith(range2))
+                .isEqualTo(range3);
+
         //fail( "method t14JoinWith reached end. You know what to do." );
     }
 
@@ -413,16 +468,19 @@ class RangeTest {
     @CsvSource( value = {
         // this, cutter, intersection
         "ac,bd,bc",
-        //TODO A5A test intersectWith add more test values to improve coverage
-        
+        "ae,cf,ce",
+        "be,bf,be",
+        "bd,ac,bc",
     }
     )
     void t15aCommonRangeSuccess( String rp1, String rp2, String intersection ) {
         IntegerRange range = createRange( rp1 );
         IntegerRange cutter = createRange( rp2 );
         Optional<IntegerRange> result = range.intersectWith( cutter );
-        //TODO write action and assert
-        //fail("t15aCommonRangeSuccess completed succesfully; you know what to do");
+
+        assertThat(result)
+                .isNotEmpty();
+        //fail("t15aCommonRangeSuccess completed successfully; you know what to do");
     }
 
     /**
@@ -440,14 +498,18 @@ class RangeTest {
     @CsvSource( value = {
         // this, cutter, cuts, expected result
         "ab,cd,false,",
-        //TODO A5A test intersectWith add more test values to improve coverage
+        "ac,ef,false,",
     
     } )
     void t15bCommonRangeEmpty( String rp1, String rp2, boolean interSects, String interSection ) {
         IntegerRange range = createRange( rp1 );
         IntegerRange cutter = createRange( rp2 );
-        //TODO write action and assert that result is empty
-        //fail("t15bCommonRangeEmpty completed succesfully; you know what to do");
+        Optional<IntegerRange> result = range.intersectWith( cutter );
+
+        assertThat(result)
+                .isEmpty();
+
+        //fail("t15bCommonRangeEmpty completed successfully; you know what to do");
     }
 
     /**
@@ -464,15 +526,20 @@ class RangeTest {
     @CsvSource( value = {
         // this, cutter, cuts, expected result
         "ab,cd,false", // disjunct
-        //TODO A4A test containsRange. add more test values to improve coverage
+        "ae,cd,true",
+        "ad,bc,true",
+        "df,ab,false",
     
     }
     )
     void t16ContainsRange( String rp1, String rp2, boolean expected ) {
         IntegerRange range = createRange( rp1 );
         IntegerRange other = createRange( rp2 );
-        //TODO write assert
-        //fail("t16ContainsRange completed succesfully; you know what to do");
+
+        assertThat(range.contains(other))
+                .isEqualTo(expected);
+
+        //fail("t16ContainsRange completed successfully; you know what to do");
 
     }
 
@@ -494,7 +561,9 @@ class RangeTest {
         // range, punch, results, | separated
         "ab,ab,ab", // replace
         "ac,ab,ab|bc", // left punch
-        //TODO A6A test punchThrough(...). add more test values to improve coverage
+        "ac,bd,ac",
+        "bf,ce,bc|ce|ef",
+        "cf,ef,ce|ef",
     
     }
     )
@@ -503,8 +572,11 @@ class RangeTest {
         IntegerRange punch = createRange( punchP );
         var expectedParts = helper().restRanges( "\\|", restPairs );
         Stream<IntegerRange> result = range.punchThrough( punch );
-        //TODO write assert using stream
-        //fail("t17PunchThrough completed succesfully; you know what to do");
+
+        assertThat(result)
+                .containsExactlyElementsOf(expectedParts);
+
+        //fail("t17PunchThrough completed successfully; you know what to do");
 
     }
 
@@ -528,7 +600,10 @@ class RangeTest {
     void t18CompareTo( String pp1, String pp2, int expected ) {
         IntegerRange r1 = createRange( pp1 );
         IntegerRange r2 = createRange( pp2 );
-        //TODO write assert. Remember signum use for comparable or comparator.
-        //fail("t18CompareTo completed succesfully; you know what to do");
+
+        assertThat(signum(r1.compareTo(r2)))
+                .isEqualTo(expected);
+
+        //fail("t18CompareTo completed successfully; you know what to do");
     }
 }
