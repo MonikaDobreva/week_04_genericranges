@@ -105,7 +105,9 @@ class RangeTest {
         Integer a = lookupPoint( as );
         Integer b = lookupPoint( bs );
         Integer expected = lookupPoint( exs ); // the map will return the same instance
-        //assertThat()
+
+        assertThat(Range.max(a, b))
+                .isEqualTo(expected);
         //fail( "method t01Max reached end. You know what to do." );
     }
 
@@ -124,7 +126,12 @@ class RangeTest {
         "a,a,a"
     } )
     public void t02Min( String as, String bs, String exs ) {
-        //TODO implement test
+        Integer a = lookupPoint( as );
+        Integer b = lookupPoint( bs );
+        Integer expected = lookupPoint( exs );
+
+        assertThat(Range.min(a, b))
+                .isEqualTo(expected);
         //fail( "method t02Min reached end. You know what to do." );
     }
 
@@ -231,7 +238,7 @@ class RangeTest {
     @Test
     public void t07Length() {
         //TODO test length with distance function
-        fail( "method t07Length reached end. You know what to do." );
+        //fail( "method t07Length reached end. You know what to do." );
     }
 
     /**
