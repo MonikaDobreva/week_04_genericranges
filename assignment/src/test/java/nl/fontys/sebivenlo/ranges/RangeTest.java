@@ -157,8 +157,8 @@ class RangeTest {
         Integer exp1 = lookupPoint( expected1 );
         Integer[] t = Range.minmax( a, b );
         SoftAssertions.assertSoftly( softly -> {
-            //TODO write assertions
-            
+            softly.assertThat(t[0]).isEqualTo(exp0);
+            softly.assertThat(t[1]).isEqualTo(exp1);
         } );
         
         //fail( "method t03minmaxTest reached end. You know what to do." );
@@ -187,7 +187,11 @@ class RangeTest {
         Integer c = lookupPoint( cs );
         Integer d = lookupPoint( ds );
         // Make sure to implement IntergerRange.of
-        //TODO create ranges and test meets method
+
+        IntegerRange range1 = IntegerRange.of(a, b);
+        IntegerRange range2 = IntegerRange.of(c, d);
+        assertThat(range1.meets(range2)).isEqualTo(expected);
+
         //fail( "method t04Meets reached end. You know what to do." );
     }
 

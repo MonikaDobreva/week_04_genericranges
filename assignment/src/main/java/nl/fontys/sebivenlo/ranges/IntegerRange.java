@@ -13,9 +13,7 @@ public class IntegerRange implements Range<IntegerRange, Integer, Integer> {
     private final Integer start;
     private final Integer end;
 
-    private IntegerRange(Integer a, Integer b) {
-        Integer[] i = Range.minmax( a, b );
-
+    private IntegerRange(Integer[] i) {
         this.start = i[0];
         this.end = i[1];
     }
@@ -72,7 +70,8 @@ public class IntegerRange implements Range<IntegerRange, Integer, Integer> {
      * @return the range
      */
     public static IntegerRange of( Integer start, Integer end ) {
-        return new IntegerRange(start, end);
+        Integer[] i = {start, end};
+        return new IntegerRange(i);
     }
 
 }
