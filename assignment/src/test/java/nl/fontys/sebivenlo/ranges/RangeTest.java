@@ -1,3 +1,4 @@
+/*
 package nl.fontys.sebivenlo.ranges;
 
 import java.util.Objects;
@@ -16,11 +17,13 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static java.lang.Math.signum;
 
+*/
 /**
  * Tests the Range interface via leaf class IntegerRange.
  *
  * @author Pieter van den Hombergh {@code pieter.van.den.hombergh@gmail.com}
- */
+ *//*
+
 @TestMethodOrder( MethodOrderer.MethodName.class )
 class RangeTest {
 
@@ -48,55 +51,65 @@ class RangeTest {
         return daf;
     }
 
-    /**
+    */
+/**
      * Create range using helper.
      *
      * @param rp1 range spec
      * @return a range
-     */
+     *//*
+
     IntegerRange createRange( String rp1 ) {
         return helper().createRange( rp1 );
     }
 
-    /**
+    */
+/**
      * Create range using helper.
      *
      * @param p1 point
      * @param p2 point
      * @return range
-     */
+     *//*
+
     IntegerRange createRange( Integer p1, Integer p2 ) {
         return helper().createRange( p1, p2 );
     }
 
-    /**
+    */
+/**
      * Helper to shorten writing the tests.
      *
      * @param key
      * @return
-     */
+     *//*
+
     Integer lookupPoint( String key ) {
         return helper().lookupPoint( key );
     }
 
-    /**
+    */
+/**
      * Helper to compute distance.
      *
      * @param a point
      * @param b point
      * @return integer distance
-     */
+     *//*
+
     Integer distance( Integer a, Integer b ) {
         return helper().distance( a, b );
     }
 
-    /**
+    */
+/**
      * Test the default max function in Range.
      *
      * @param as specifies a
      * @param bs specifies a
      * @param exs specifies expected point
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( {
@@ -114,13 +127,15 @@ class RangeTest {
         //fail( "method t01Max reached end. You know what to do." );
     }
 
-    /**
+    */
+/**
      * Test the default max function in Range.
      *
      * @param as specifies a
      * @param bs specifies a
      * @param exs specifies expected point
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( {
@@ -138,14 +153,16 @@ class RangeTest {
         //fail( "method t02Min reached end. You know what to do." );
     }
 
-    /**
+    */
+/**
      * Test the default minmax function in Range.
      *
      * @param as specifies a
      * @param bs specifies b
      * @param expected0 specifies expected0 point
      * @param expected1 specifies expected1 point
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( {
@@ -167,7 +184,8 @@ class RangeTest {
         //fail( "method t03minmaxTest reached end. You know what to do." );
     }
 
-    /**
+    */
+/**
      * Test Range#meets.
      *
      * @param as specifies a
@@ -175,7 +193,8 @@ class RangeTest {
      * @param cs specifies c
      * @param ds specifies d
      * @param expected outcome
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( {
@@ -199,9 +218,11 @@ class RangeTest {
         //fail( "method t04Meets reached end. You know what to do." );
     }
 
-    /**
+    */
+/**
      * Test the helper method Range#between. Given.
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @Test
     public void t05CreateBetween() {
@@ -218,10 +239,12 @@ class RangeTest {
 //        fail( "createBetween completed successfully; you know what to do" );
     }
 
-    /**
+    */
+/**
      * Test Range#rangeHashCode and Range#rangeEquals implicitly through
      * concrete IntegerRange. Given.
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @Test
     public void t06HashCodeEquals() {
@@ -239,9 +262,11 @@ class RangeTest {
 //        fail( "hashCodeEquals completed successfully; you know what to do" );
     }
 
-    /**
+    */
+/**
      * Test length function. Bit dubious, does it really test anything in range?
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @Test
     public void t07Length() {
@@ -255,13 +280,15 @@ class RangeTest {
         //fail( "method t07Length reached end. You know what to do." );
     }
 
-    /**
+    */
+/**
      * Test the overlaps function. The method is given. Add more test values.
      *
      * @param rp1 point pair 1
      * @param rp2 point pair 2
      * @param overlaps expected outcome
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( value = {
@@ -281,13 +308,15 @@ class RangeTest {
         //fail( "method t08Overlaps reached end. You know what to do." );
     }
 
-    /**
+    */
+/**
      * Compute the overlap between two ranges.
      *
      * @param rp1 point pair one defining first range
      * @param rp2 point pair two defining second range
      * @param rp3 point pair with expected length
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( value = {
@@ -313,11 +342,13 @@ class RangeTest {
         //fail("test t09overLap completed, you know what to do.");
     }
 
-    /**
+    */
+/**
      * Assert that the range constructor puts start and end in the proper order.
      * E.g. IntegerRange(5,4) -> start: 4 and end: 5
      * Assert that end of range is less or equal to start, using compareTo.
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @Test
     void t10Normalizes() {
@@ -333,14 +364,16 @@ class RangeTest {
 
     }
 
-    /**
+    */
+/**
      * Check the contain(p) method works correctly. Method is given. Add test
      * values.
      *
      * @param pp first range lookup
      * @param point to check
      * @param contains expected value
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( {
@@ -372,7 +405,8 @@ class RangeTest {
         //fail( " t12ToString reached end. You know what to do." );
     }
 
-    /**
+    */
+/**
      * Test that method checkMeetsOrOverlaps throws exception at the proper
      * situation. 
      * 
@@ -380,7 +414,8 @@ class RangeTest {
      *
      * @param pp1
      * @param pp2
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( {
@@ -401,7 +436,8 @@ class RangeTest {
         //fail( "method t13aCheckMeetsOrOverlaps reached end. You know what to do." );
     }
 
-    /**
+    */
+/**
      * Test that method checkMeetsOrOverlaps throws exception at the proper
      * situation. 
      * 
@@ -410,7 +446,8 @@ class RangeTest {
      * @param pp1
      * @param pp2
      * @param meetsOrOverLaps
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( {
@@ -429,14 +466,16 @@ class RangeTest {
         //fail( "method t13bCheckMeetsOrOverlaps reached end. You know what to do." );
     }
 
-    /**
+    */
+/**
      * Check joinWith. The test values should all produce a join, the exception
      * throwing is tested elsewhere.
      *
      * @param pp1 first range spec
      * @param pp2 second range spec.
      * @param expectedRange in the test
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( {
@@ -454,7 +493,8 @@ class RangeTest {
         //fail( "method t14JoinWith reached end. You know what to do." );
     }
 
-    /**
+    */
+/**
      * Check the intersect method part 1. 
      * 
      * In this test all values should produce a non-empty intersection.
@@ -462,7 +502,8 @@ class RangeTest {
      * @param rp1 range specification
      * @param rp2 cutter range spec
      * @param intersection expected result of cut.
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( value = {
@@ -483,7 +524,8 @@ class RangeTest {
         //fail("t15aCommonRangeSuccess completed successfully; you know what to do");
     }
 
-    /**
+    */
+/**
      * Check the intersect method part 2. 
      * 
      * In this test all values should produce an empty intersection.
@@ -492,7 +534,8 @@ class RangeTest {
      * @param rp2 cutter range spec
      * @param interSection expected value 1
      * @param interSection expected result of cut.
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( value = {
@@ -512,7 +555,8 @@ class RangeTest {
         //fail("t15bCommonRangeEmpty completed successfully; you know what to do");
     }
 
-    /**
+    */
+/**
      * Test if range is fully contained in other. (contains method)
      *
      * Method is given. Add test values
@@ -520,7 +564,8 @@ class RangeTest {
      * @param rp1 this range
      * @param rp2 other range
      * @param expected outcome
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( value = {
@@ -543,7 +588,8 @@ class RangeTest {
 
     }
 
-    /**
+    */
+/**
      * Test the punchThrough method. Test is given. Add test values.
      *
      * In expected value ab|bc means a stream with exactly the elements [ab) and
@@ -554,7 +600,8 @@ class RangeTest {
      * @param rangeP range value
      * @param punchP punch value
      * @param restPairs, | separated list of expected ranges in stream
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( value = {
@@ -580,7 +627,8 @@ class RangeTest {
 
     }
 
-    /**
+    */
+/**
      * Test compareTo. The outcome is negative, zero or positive, which is
      * expressed in the table as -1, 0. or 1.
      *
@@ -589,7 +637,8 @@ class RangeTest {
      * @param pp1 range 1
      * @param pp2 range 2
      * @param expected value
-     */
+     *//*
+
     //@Disabled("Think TDD")
     @ParameterizedTest
     @CsvSource( {
@@ -607,3 +656,4 @@ class RangeTest {
         //fail("t18CompareTo completed successfully; you know what to do");
     }
 }
+*/
