@@ -250,7 +250,7 @@ class RangeTest {
         IntegerRange range = IntegerRange.of(a, b);
 
         assertThat(range.length())
-                .isEqualTo(distance(a,b));
+                .isEqualTo(Math.abs(distance(a,b)));
 
         //fail( "method t07Length reached end. You know what to do." );
     }
@@ -324,10 +324,10 @@ class RangeTest {
         Integer a = lookupPoint("a");
         Integer c = lookupPoint("c");
 
-        IntegerRange range = IntegerRange.of(c, a);
+        IntegerRange range = IntegerRange.of(a, c);
 
         assertThat(range.end().compareTo(range.start()))
-                .isLessThanOrEqualTo(0);
+                .isGreaterThanOrEqualTo(0);
 
         //fail("test t10normalizes completed, you know what to do.");
 
