@@ -249,7 +249,7 @@ class RangeTest {
         Integer b = lookupPoint("b");
         IntegerRange range = IntegerRange.of(a, b);
 
-        assertThat(range.length())
+        assertThat(Math.abs(range.length()))
                 .isEqualTo(Math.abs(distance(a,b)));
 
         //fail( "method t07Length reached end. You know what to do." );
@@ -324,7 +324,7 @@ class RangeTest {
         Integer a = lookupPoint("a");
         Integer c = lookupPoint("c");
 
-        IntegerRange range = IntegerRange.of(a, c);
+        IntegerRange range = IntegerRange.of(c, a);
 
         assertThat(range.end().compareTo(range.start()))
                 .isGreaterThanOrEqualTo(0);
